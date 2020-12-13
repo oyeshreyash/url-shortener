@@ -37,14 +37,12 @@ def home():
         url_recieved = request.form["link"]
         found_url = Urls.query.filter_by(long=url_recieved).first()
         if found_url:
-            #return f"{found_url.short}"
             return redirect(url_for("display_short_url", url=found_url.short))
         else:
             short_url = shorten_url()
             new_url = Urls(url_recieved, short_url)
             db.session.add(new_url)
             db.session.commit()
-            #return short_url
             return redirect(url_for("display_short_url", url=short_url))
     else:
         return render_template('base.html')
